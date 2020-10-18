@@ -7,21 +7,25 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String rndSet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ";
+        int distortion = 3;
+        Encoder encdr = new Encoder();
+        Distorter dstrtr = new Distorter();
+        Decoder dcdr = new Decoder();
         char[] input = sc.nextLine().toCharArray();
-        Random rnd = new Random();
 
-        for (int i = 0; i < input.length; i += 3) {
-            int index = rnd.nextInt(3);
-            int pickedChar = rnd.nextInt(rndSet.length());
-            if (i + index < input.length) {
-                while (pickedChar == input[i + index]) {
-                    pickedChar = rnd.nextInt(rndSet.length());
-                }
-                input[i + index] = rndSet.charAt(pickedChar);
-            }
-        }
+        print(input);
 
+        input = encdr.encode(input, distortion);
+        print(input);
+
+        input = dstrtr.distort(input, distortion);
+        print(input);
+
+        input = dcdr.decode(input, distortion);
+        print(input);
+    }
+
+    private static void print(char[] input) {
         for (int i = 0; i < input.length; i++) {
             System.out.print(input[i]);
         }
